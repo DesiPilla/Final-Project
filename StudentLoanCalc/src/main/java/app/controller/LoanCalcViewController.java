@@ -18,27 +18,18 @@ public class LoanCalcViewController implements Initializable   {
 	
 	@FXML
 	private TextField LoanAmount;
-	
-	@FXML
-	private Label lblTotalPayemnts;
-	
-	@FXML
-	private DatePicker PaymentStartDate;
-	
 	@FXML
 	private TextField InterestRate;
-	
 	@FXML
 	private TextField NbrOfYears;
-	
-	@FXML
-	private Label lblTotalInterest;
-	
 	@FXML
 	private TextField AdditionalPayment;
-	
-	
-	
+	@FXML
+	private Label lblTotalPayemnts;
+	@FXML
+	private Label lblTotalInterest;
+	@FXML
+	private DatePicker PaymentStartDate;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -73,7 +64,7 @@ public class LoanCalcViewController implements Initializable   {
 		System.out.println(additionalPayment);
 		
 		Loan loan = new Loan(loanAmount, interestRate, numYears, additionalPayment);
-		lblTotalPayments.setText(Double.toString(Math.round(loan.addPayments())));
+		lblTotalPayemnts.setText(Double.toString(Math.round(loan.addPayments())));
 		lblTotalInterest.setText(Double.toString(Math.round(loan.totalInterestPayed())));
 		
 		

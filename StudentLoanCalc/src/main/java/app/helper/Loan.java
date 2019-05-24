@@ -28,8 +28,8 @@ public class Loan {
 			Payment payment = new Payment(pmt, ppmt, ipmt);
 			
 			System.out.println("Period: " + payPeriod);
-			System.out.println("Present Value" + round(currentValue,2));
-			System.out.println("Payment" + round(payment.getIpmt(), 2));
+			System.out.println("Present Value: " + round(currentValue,2));
+			System.out.println("Payment: " + round(payment.getIpmt(), 2));
 			System.out.println("Interest Payment: " + round(payment.getPmt(), 2));
 			System.out.println("Principle Payment: " + round(payment.getPpmt(), 2));
 			System.out.println();
@@ -74,11 +74,12 @@ public class Loan {
 		return total;
 	}
 	
-	// Amount 
+	// Interest Payed = Total Payments - Original Loan Amount
 	public double totalInterestPayed() {
 		return this.addPayments() - this.loanAmount;
 	}
 	
+	// Print Payment Information
 	public void printPayments() {
 		System.out.println("Number of Payments: " + paymentList.size());
 		for ( Payment p:paymentList) {
@@ -88,6 +89,7 @@ public class Loan {
 		}
 	}
 	
+	// Helper function to round Loan Information
 	public static double round(double unrounded, int numDecimals) {
 		BigDecimal bigDecimal = new BigDecimal(Double.toString(unrounded));
 		bigDecimal = bigDecimal.setScale(numDecimals, RoundingMode.HALF_UP);
