@@ -49,35 +49,23 @@ public class LoanCalcViewController implements Initializable   {
 	private void btnCalcLoan(ActionEvent event) {
 
 		double loanAmount = Double.parseDouble(LoanAmount.getText());
-		System.out.println("Amount: " + loanAmount);
+		System.out.println("Full Amount: " + loanAmount);
 		
 		LocalDate localDate = PaymentStartDate.getValue();
-		System.out.println(localDate);
+		System.out.println("Start Date" + localDate);
 		
 		double interestRate = Double.parseDouble(InterestRate.getText());
-		System.out.println(interestRate);
+		System.out.println("Interest Rate: " + interestRate);
 		
 		int numYears = Integer.parseInt(NbrOfYears.getText());
-		System.out.println(numYears);
+		System.out.println("Length of Payment: " + numYears + " years");
 		
 		double additionalPayment = Double.parseDouble(AdditionalPayment.getText());
-		System.out.println(additionalPayment);
+		System.out.println("Additional Payment per month: " + additionalPayment);
 		
 		Loan loan = new Loan(loanAmount, interestRate, numYears, additionalPayment);
-		lblTotalPayemnts.setText(Double.toString(Math.round(loan.addPayments())));
-		lblTotalInterest.setText(Double.toString(Math.round(loan.totalInterestPayed())));
-		
-		
-		/*
-		System.out.println("Amount: " + LoanAmount.getText());
-		double dLoanAmount = Double.parseDouble(LoanAmount.getText());
-		System.out.println("Amount: " + dLoanAmount);	
-		
-		lblTotalPayemnts.setText("123");
-		
-		LocalDate localDate = PaymentStartDate.getValue();
-	 
-		System.out.println(localDate);
-		*/
+		lblTotalPayemnts.setText(Double.toString(loan.addPayments()));
+		lblTotalInterest.setText(Double.toString(loan.addInterest()));
+		System.out.println("donzo");
 	}
 }

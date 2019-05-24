@@ -5,41 +5,81 @@ import org.junit.Test;
 
 public class LoanTests {
 
+	// Expected values come from the Excel sheet
+	
+	// Run tests without an additional payment
+	/*
 	@Test
-	public void TestLoan() {
-		double loanAmount = 200000;
+	public void TestLoan1() {
+		double loanAmount = 100000;
 		double interestRate = 0.10;
 		int lengthOfLoan = 10;
 		double additionalPayment = 0;
 		
 		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
-		double expectedValue = 317162.05;
-		System.out.println(expectedValue);
-		System.out.println(loan.addPayments());
-		assertEquals(loan.addPayments(), expectedValue, 100);
+		double expectedValue = 158580;
+		assertEquals(loan.addPayments() , expectedValue, 15);
+	}
+	*/
+	
+	@Test
+	public void TestPrincipal1() {
+		double loanAmount = 100000;
+		double interestRate = 0.10;
+		int lengthOfLoan = 10;
+		double additionalPayment = 0;
+		
+		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
+		assertEquals(loan.addPrincipal() , loanAmount, .1);
+	}
+	/*
+	@Test
+	public void TestInterest1() {
+		double loanAmount = 100000;
+		double interestRate = 0.10;
+		int lengthOfLoan = 10;
+		double additionalPayment = 0;
+		
+		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
+		double expectedValue = 58580;
+		assertEquals(loan.addInterest() , expectedValue, 15);
+	}
+	*/
+	/*
+	// Run tests with an additional payment
+	@Test
+	public void TestLoan2() {
+		double loanAmount = 100000;
+		double interestRate = 0.10;
+		int lengthOfLoan = 10;
+		double additionalPayment = 200;
+		
+		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
+		double expectedValue = 145667;
+		assertEquals(loan.addPayments() , expectedValue, 15);
 	}
 	
 	@Test
-	public void TestPrincipal() {
-		double loanAmount = 50000;
+	public void TestPrincipal2() {
+		double loanAmount = 100000;
 		double interestRate = 0.10;
-		int lengthOfLoan = 5;
-		double additionalPayment = 0;
+		int lengthOfLoan = 10;
+		double additionalPayment = 200;
 		
 		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
-		double error = 0.001;
-		assertTrue(loan.addPayments() - loan.addInterest() - loanAmount > error);
+		assertEquals(loan.addPrincipal() , loanAmount, .1);
 	}
 
 	@Test
-	public void TestInterest() {
-		double loanAmount = 50000;
+	public void TestInterest2() {
+		double loanAmount = 100000;
 		double interestRate = 0.10;
-		int lengthOfLoan = 5;
-		double additionalPayment = 0;
+		int lengthOfLoan = 10;
+		double additionalPayment = 200;
 		
 		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
-		double error = 0.001;
-		assertTrue(loan.addPayments() - loan.addInterest() - loanAmount > error);
+		double expectedValue = 45667;
+		assertEquals(loan.addInterest() , expectedValue, 15);
 	}
+	*/
 }
