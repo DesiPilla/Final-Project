@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.StudentCalc;
-import app.helper.Loan;
+import app.helper.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -72,8 +72,8 @@ public class LoanCalcViewController implements Initializable   {
 		double additionalPayment = Double.parseDouble(AdditionalPayment.getText());
 		System.out.println(additionalPayment);
 		
-		Loan loan = new Loan(loanAmount, interestRate, numYear, additionalPayment);
-		lblTotalPayments.setText(Double.toString(Math.round(loan.sumPayments())));
+		Loan loan = new Loan(loanAmount, interestRate, numYears, additionalPayment);
+		lblTotalPayments.setText(Double.toString(Math.round(loan.addPayments())));
 		lblTotalInterest.setText(Double.toString(Math.round(loan.totalInterestPayed())));
 		
 		

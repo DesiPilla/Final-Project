@@ -32,6 +32,8 @@ public class Loan {
 			System.out.println("Payment" + round(payment.getIpmt(), 2));
 			System.out.println("Interest Payment: " + round(payment.getPmt(), 2));
 			System.out.println("Principle Payment: " + round(payment.getPpmt(), 2));
+			System.out.println();
+			
 			paymentList.add(payment);
 			if (currentValue - payment.getPpmt() <= 0.001) {
 				payment.setPmt(currentValue);
@@ -45,6 +47,7 @@ public class Loan {
 		} while(currentValue > 0);
 	}
 	
+	// Sum all of the payments in PaymentList
 	public double addPayments() {
 		double total = 0;
 		for (Payment p : paymentList) {
@@ -53,6 +56,25 @@ public class Loan {
 		return total;
 	}
 	
+	// Sum all of the principal payments in PaymentList
+	public double addPrincipal() {
+		double total = 0;
+		for (Payment p : paymentList) {
+			total+=p.getPpmt();
+		}
+		return total;
+	}
+	
+	// Sum all of the interest payments in PaymentList
+	public double addInterest() {
+		double total = 0;
+		for (Payment p : paymentList) {
+			total+=p.getIpmt();
+		}
+		return total;
+	}
+	
+	// Amount 
 	public double totalInterestPayed() {
 		return this.addPayments() - this.loanAmount;
 	}

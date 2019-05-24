@@ -6,9 +6,9 @@ public class Payment {
 	private double ipmt;
 	
 	public Payment(double payment, double ppayment, double ipayment) {
-		this.pmt = payment;
-		this.ppmt = ppayment;
-		this.ipmt = ipayment;
+		this.pmt = payment;		// Payment
+		this.ppmt = ppayment;	// Principal Payment
+		this.ipmt = ipayment;	// Interest Payment
 	}
 	
 	public double getPmt() {
