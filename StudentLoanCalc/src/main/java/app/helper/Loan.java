@@ -24,17 +24,17 @@ public class Loan {
 		do {
 			double pmt = round(Finance.pmt(this.interestRate/12, this.lengthOfLoan, this.lengthOfLoan*12, -this.loanAmount) + this.additionalPayment, 4);
 			double ppmt = round(Finance.ppmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount) + this.additionalPayment, 4);
-			double ipmt = round(Finance.ipmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, ithis.loanAmount), 4);
+			double ipmt = round(Finance.ipmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount), 4);
 			Payment payment = new Payment(pmt, ppmt, ipmt);
 			
 			System.out.println("Period: " + payPeriod);
-			System.out.println("Present Value" + round(currentValue(),2);
-			System.out.println("Payment" + round(payment.getiPayment(), 2));
-			System.out.println("Interest Payment: " + round(payment.getPayment(), 2));
-			System.out.println("Principle Payment: " + round(payment.getpPayment(), 2));
+			System.out.println("Present Value" + round(currentValue,2));
+			System.out.println("Payment" + round(payment.getIpmt(), 2));
+			System.out.println("Interest Payment: " + round(payment.getPmt(), 2));
+			System.out.println("Principle Payment: " + round(payment.getPpmt(), 2));
 			paymentList.add(payment);
-			if (currentValue - payment.getpPayment() <= 0.001) {
-				payment.setPayment(currentValue);
+			if (currentValue - payment.getPpmt() <= 0.001) {
+				payment.setPmt(currentValue);
 				currentValue = 0;
 				break;
 			}
@@ -48,13 +48,28 @@ public class Loan {
 	public double addPayments() {
 		double total = 0;
 		for (Payment p : paymentList) {
-			total+=p.getPayment();
+			total+=p.getPmt();
 		}
 		return total;
 	}
 	
 	public double totalInterestPayed() {
-		return this.sumPayments() - this.loanAmount;
+		return this.addPayments() - this.loanAmount;
+	}
+	
+	public void printPayments() {
+		System.out.println("Number of Payments: " + paymentList.size());
+		for ( Payment p:paymentList) {
+			System.out.println("Interest Payment: " + p.getIpmt());
+			System.out.println("Principle Payment: " + p.getIpmt());
+			System.out.println();
+		}
+	}
+	
+	public static double round(double unrounded, int numDecimals) {
+		BigDecimal bigDecimal = new BigDecimal(Double.toString(unrounded));
+		bigDecimal = bigDecimal.setScale(numDecimals, RoundingMode.HALF_UP);
+		return bigDecimal.doubleValue();
 	}
 	
 }
