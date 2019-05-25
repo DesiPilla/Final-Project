@@ -1,7 +1,7 @@
 package app.helper;
 
 public class Payment {
-	private double pmt;		// Payment	
+	private double pmt;		// Payment
 	private double ppmt;	// Principal Payment
 	private double ipmt;	// Interest Payment
 	private double apmt;	// Additional Payment
@@ -11,6 +11,7 @@ public class Payment {
 		this.pmt = payment;
 		this.ppmt = ppayment;
 		this.ipmt = ipayment;
+		this.apmt = apayment;
 	}
 	
 	// Get Payment Value

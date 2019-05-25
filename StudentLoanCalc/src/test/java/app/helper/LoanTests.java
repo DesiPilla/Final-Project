@@ -6,9 +6,8 @@ import org.junit.Test;
 public class LoanTests {
 
 	// Expected values come from the Excel sheet
-	
-	// Run tests without an additional payment
 	/*
+	// Run tests without an additional payment
 	@Test
 	public void TestLoan1() {
 		double loanAmount = 100000;
@@ -17,10 +16,9 @@ public class LoanTests {
 		double additionalPayment = 0;
 		
 		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
-		double expectedValue = 158580;
+		double expectedValue = 158580.53;
 		assertEquals(loan.addPayments() , expectedValue, 15);
 	}
-	*/
 	
 	@Test
 	public void TestPrincipal1() {
@@ -32,7 +30,7 @@ public class LoanTests {
 		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
 		assertEquals(loan.addPrincipal() , loanAmount, .1);
 	}
-	/*
+	
 	@Test
 	public void TestInterest1() {
 		double loanAmount = 100000;
@@ -41,11 +39,10 @@ public class LoanTests {
 		double additionalPayment = 0;
 		
 		Loan loan = new Loan(loanAmount, interestRate, lengthOfLoan, additionalPayment);	
-		double expectedValue = 58580;
-		assertEquals(loan.addInterest() , expectedValue, 15);
+		double expectedValue = 58580.53;
+		assertEquals(loan.addInterest() , expectedValue, 1);
 	}
 	*/
-	/*
 	// Run tests with an additional payment
 	@Test
 	public void TestLoan2() {
@@ -81,5 +78,4 @@ public class LoanTests {
 		double expectedValue = 45667;
 		assertEquals(loan.addInterest() , expectedValue, 15);
 	}
-	*/
 }

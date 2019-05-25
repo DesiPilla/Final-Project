@@ -15,44 +15,51 @@ public class Loan {
 	private double additionalPayment;
 	private double amountDue;
 	
-	public Loan(double loanAmount, double interestRate, int lengthOfLoan, double additionalPayment) {
+	public Loan(double loanAmount, double interestRate, int lengthOfLoan, double apmt) {
 		this.loanAmount = loanAmount;
 		this.interestRate = interestRate;
 		this.lengthOfLoan = lengthOfLoan;
-		this.additionalPayment = additionalPayment;
+		this.additionalPayment = apmt;
 		
 		amountDue = this.loanAmount;
 		int payPeriod = 1;
 		do {
-			double pmt = Finance.pmt(this.interestRate/12, this.lengthOfLoan*12, -this.loanAmount) + this.additionalPayment;
-			double ppmt = Finance.ppmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount);
-			double ipmt = Finance.ipmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount);
-			Payment payment = new Payment(pmt, ppmt, ipmt, additionalPayment);
+			double pmt = Finance.pmt(this.interestRate/12, this.lengthOfLoan*12, -this.loanAmount);
+			double ipmt = amountDue*interestRate/12;
+			double ppmt = pmt - ipmt;
+			
+			/*
+			double ppmt = Finance.ppmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount-addAdditional());
+			double ipmt = Finance.ipmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount-addAdditional());
+			*/
+			Payment payment = new Payment(pmt, ppmt, ipmt, apmt);
 			
 			System.out.println("Period: " + payPeriod);
 			System.out.println("Amount Due: " + round(amountDue,2));
-			System.out.println("Payment: " + round(payment.getIpmt(), 2));
-			System.out.println("Principle Payment: " + round(payment.getPpmt(), 2));
+			System.out.println("Payment: " + round(payment.getPmt(), 2));
+			System.out.println("Principle Payment: " + round(payment.getPpmt() + payment.getApmt(), 2));
 			System.out.println("Interest Payment: " + round(payment.getIpmt(), 2));
+			System.out.println("Additional Payment: " + round(payment.getApmt(), 2));
 			System.out.println();
 			
-			paymentList.add(payment);
-			
-			if (amountDue - payment.getPmt() - payment.getApmt() <= 0) {
-				if (amountDue - payment.getPmt() <= 0) {
+			if (amountDue - ppmt - apmt <= 0) {
+				if (amountDue - ppmt <= 0) {
 					payment.setPmt(amountDue);
 					payment.setApmt(0);
 					amountDue = 0;
 				}
 				else {
-					payment.setApmt(amountDue - payment.getPmt());
+					payment.setApmt(amountDue - pmt);
 					amountDue = 0;
+					paymentList.add(payment);
+					break;
 				}
-				break;
 			}
 			else {
-				amountDue -= (ppmt + additionalPayment);
+				amountDue -= (ppmt + apmt);
 			}
+			
+			paymentList.add(payment);
 			payPeriod++;
 		} while(amountDue > 0);
 		
@@ -65,7 +72,7 @@ public class Loan {
 	public double addPayments() {
 		double total = 0;
 		for (Payment p : paymentList) {
-			total+=p.getPmt();
+			total+= (p.getPmt() + p.getApmt());
 		}
 		return round(total,2);
 	}
@@ -74,7 +81,7 @@ public class Loan {
 	public double addPrincipal() {
 		double total = 0;
 		for (Payment p : paymentList) {
-			total+=p.getPpmt();
+			total+= (p.getPpmt() + p.getApmt());
 		}
 		return round(total,2);
 	}
@@ -84,6 +91,15 @@ public class Loan {
 		double total = 0;
 		for (Payment p : paymentList) {
 			total+=p.getIpmt();
+		}
+		return round(total,2);
+	}
+	
+	// Sum all of the additional payments in PaymentList
+	public double addAdditional() {
+		double total = 0;
+		for (Payment p : paymentList) {
+			total+=p.getApmt();
 		}
 		return round(total,2);
 	}
