@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import org.apache.poi.ss.formula.functions.*;
 
 public class Loan {
+	
 	private LinkedList<Payment> paymentList = new LinkedList<Payment>();
 	private double loanAmount;
 	private double interestRate;
@@ -15,6 +16,7 @@ public class Loan {
 	private double additionalPayment;
 	private double amountDue;
 	
+	// Four-arg constructor
 	public Loan(double loanAmount, double interestRate, int lengthOfLoan, double apmt) {
 		this.loanAmount = loanAmount;
 		this.interestRate = interestRate;
@@ -22,16 +24,15 @@ public class Loan {
 		this.additionalPayment = apmt;
 		
 		amountDue = this.loanAmount;
+		
 		int payPeriod = 1;
 		do {
+			// Calculate Payment, Interest Payment, and Principal Payment
 			double pmt = Finance.pmt(this.interestRate/12, this.lengthOfLoan*12, -this.loanAmount);
 			double ipmt = amountDue*interestRate/12;
 			double ppmt = pmt - ipmt;
 			
-			/*
-			double ppmt = Finance.ppmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount-addAdditional());
-			double ipmt = Finance.ipmt(this.interestRate/12, payPeriod, this.lengthOfLoan*12, -this.loanAmount-addAdditional());
-			*/
+			// Make new payment object
 			Payment payment = new Payment(pmt, ppmt, ipmt, apmt);
 			
 			System.out.println("Period: " + payPeriod);
@@ -41,34 +42,41 @@ public class Loan {
 			System.out.println("Interest Payment: " + round(payment.getIpmt(), 2));
 			System.out.println("Additional Payment: " + round(payment.getApmt(), 2));
 			System.out.println();
-			
+
+			// Check if the loan has been fully payed off			
 			if (amountDue - ppmt - apmt <= 0) {
+				// Check if Principal amount covers rest of loan
 				if (amountDue - ppmt <= 0) {
-					payment.setPmt(amountDue);
+					payment.setPmt(amountDue + ipmt);
+					payment.setPpmt(amountDue);
 					payment.setApmt(0);
 					amountDue = 0;
 				}
+				// Determine how much additional payment will pay off loan
 				else {
-					payment.setApmt(amountDue - pmt);
+					payment.setApmt(amountDue - ppmt); 
 					amountDue = 0;
 					paymentList.add(payment);
 					break;
 				}
 			}
+			// Adjust loan amount left
 			else {
 				amountDue -= (ppmt + apmt);
 			}
 			
+			// Add payment to PaymentList
 			paymentList.add(payment);
 			payPeriod++;
 		} while(amountDue > 0);
 		
+		// Print out final loan payment details
 		System.out.println("Total Payments: " + addPayments());
 		System.out.println("Total Principal Payments: " + addPrincipal());
 		System.out.println("Total Interest: " + addInterest());
 	}
 	
-	// Sum all of the payments in PaymentList
+	// Sum all of the payments in PaymentList (including additional payments)
 	public double addPayments() {
 		double total = 0;
 		for (Payment p : paymentList) {
@@ -77,7 +85,7 @@ public class Loan {
 		return round(total,2);
 	}
 	
-	// Sum all of the principal payments in PaymentList
+	// Sum all of the principal payments in PaymentList (including additional payments)
 	public double addPrincipal() {
 		double total = 0;
 		for (Payment p : paymentList) {
